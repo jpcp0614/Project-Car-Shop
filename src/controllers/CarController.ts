@@ -79,6 +79,29 @@ class CarController extends MongoController<ICar> {
       return res.status(500).json({ error: this.errors.internalError });
     }
   };
+
+  delete = async (
+    req: Request<{ id: string; }>,
+    res: Response<ICar | ResponseError>,
+  ): Promise<typeof res> => {
+    try {
+      const { params: { id } } = req;
+
+      if (id.length < 24) throw new Error();
+
+      const carDeleted = await this.service.delete(id);
+
+      return carDeleted
+        ? res.status(204).json()
+        : res.status(404).json({ error: this.errors.notFound });
+    } catch (error) {
+      if (error instanceof Error) {
+        return res.status(400).json({ error: this.errors.idMustHave24HexCha });
+      }
+      console.log(error);
+      return res.status(500).json({ error: this.errors.internalError });
+    }
+  };
 }
 
 export default CarController;

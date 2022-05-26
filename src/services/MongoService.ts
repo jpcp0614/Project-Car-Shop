@@ -14,6 +14,9 @@ abstract class MongoService<T> {
 
   public update = async (id: string, object: T): Promise<T | null> =>
     this.model.update(id, object);
+  
+  public delete = async (id: string): Promise<T | null> =>
+    this.model.delete(id);
 }
 
 export default MongoService;
