@@ -5,6 +5,9 @@ abstract class MongoService<T> {
 
   public create = async (object: T): Promise<T> =>
     this.model.create(object);
+
+  public read = async (): Promise<T[]> =>
+    this.model.read();
 }
 
 export default MongoService;
