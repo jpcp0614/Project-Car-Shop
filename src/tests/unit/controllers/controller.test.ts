@@ -37,7 +37,7 @@ describe('1 - Car Controllers Test in route /cars', () => {
         });
     });
 
-    it('b) should return error with status 400 - model empty', async () => {
+    it('b) should return error with status 400 - model required', async () => {
       chaiHttpResponse = await chai
         .request(app)
         .post('/cars')
@@ -51,6 +51,7 @@ describe('1 - Car Controllers Test in route /cars', () => {
         .then(res => {
           expect(res).to.have.status(400);
           expect(res.body).to.have.property('error');
+          expect(res.body.error.model[0]).to.deep.equal('Required');
           return res.body;
         });
     });
