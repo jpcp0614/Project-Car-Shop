@@ -3,19 +3,19 @@ import chai from 'chai';
 import chaiHttp = require('chai-http');
 import CarModel from '../../../models/CarModel';
 import server from '../../../server';
-import { carCreateMock, carResolveMock } from '../mocks/carMock';
+import { carCreateMock, carResolveMock, carFindResolveMock } from '../mocks/carMock';
 
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
-describe('1 - Car Controllers Test in route /cars', () => {
+describe('1 - Car Controllers Test in route...', () => {
   let chaiHttpResponse: Response;
   let carModel = new CarModel();
   let app = server.getApp();
 
-  describe('1.1 - "create" method:', () => {
+  describe('1.1 - method POST /cars:', () => {
     before(async () => {
       sinon.stub(carModel.model, 'create').resolves(carResolveMock);
     });
@@ -57,5 +57,47 @@ describe('1 - Car Controllers Test in route /cars', () => {
     });
   });
 
+  describe('1.2 - method GET /cars:', () => {
+    before(async () => {
+      sinon.stub(carModel.model, 'find').resolves(carFindResolveMock as any[]);
+    });
 
+    after(() => {
+      sinon.restore();
+    });
+
+    it('a) should return an array of Cars and status 200', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/cars')
+        .then(res => {
+          expect(res.body).to.be.an('array');
+          expect(res).to.have.status(200);
+          expect(res.body).to.deep.equal(carFindResolveMock);
+          return res.body;
+        });
+    });
+  });
+
+  describe('1.3 - method GET /cars/:id:', () => {
+    before(async () => {
+      sinon.stub(carModel.model, 'findOne').resolves(carResolveMock as any);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+
+    it('a) should return a Car object and status 200', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .get('/cars/4edd40c86762e0fb12000003')
+        .then(res => {
+          expect(res.body).to.be.an('object');
+          expect(res).to.have.status(200);
+          expect(res.body).to.deep.equal(carResolveMock);
+          return res.body;
+        });
+    });
+  });
 });
