@@ -1,4 +1,4 @@
-export const carMock = {
+export const carCreateMock = {
   _id: '4edd40c86762e0fb12000003',
   model: "Ferrari Maranello",
   year: 1963,
