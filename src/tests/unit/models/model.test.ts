@@ -54,4 +54,20 @@ describe('1 - Car Models Test in route...', () => {
       expect(carFound).to.deep.equal(carResolveMock);
     });
   });
+
+  describe('1.4 - method PUT /cars/:id:', () => {
+    before(() => {
+      sinon.stub(carModel.model, 'findOneAndUpdate').resolves(carResolveMock as any);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+
+    it('a) should return a Car object', async () => {
+      const carUpdated = await carModel.update(carResolveMock._id, carResolveMock);
+      expect(carUpdated).to.be.an('object');
+      expect(carUpdated).to.deep.equal(carResolveMock);
+    });
+  });
 });
