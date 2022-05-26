@@ -54,6 +54,7 @@ describe('1 - Car Services Test in route...', () => {
       expect(carFound).to.deep.equal(carResolveMock);
     });
   });
+
   describe('1.3 - method GET /cars/:id: notFound', () => {
     before(() => {
       sinon.stub(carService.model, 'readOne').resolves(null);
@@ -66,6 +67,22 @@ describe('1 - Car Services Test in route...', () => {
     it('a) should return null', async () => {
       const carFound = await carService.readOne('4edd40c86762e0fb12000003');
       expect(carFound).to.be.null;
+    });
+  });
+
+  describe('1.4 - method PUT /cars/:id:', () => {
+    before(() => {
+      sinon.stub(carService.model, 'update').resolves(carResolveMock);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+
+    it('a) should return a Car object', async () => {
+      const carFound = await carService.update(carResolveMock._id, carResolveMock);
+      expect(carFound).to.be.an('object');
+      expect(carFound).to.deep.equal(carResolveMock);
     });
   });
 });
