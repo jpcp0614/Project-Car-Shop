@@ -11,6 +11,9 @@ abstract class MongoService<T> {
 
   public readOne = async (id: string): Promise<T | null> =>
     this.model.readOne(id);
+
+  public update = async (id: string, object: T): Promise<T | null> =>
+    this.model.update(id, object);
 }
 
 export default MongoService;
