@@ -36,6 +36,13 @@ abstract class MongoController<T> {
       return res.status(500).json({ error: this.errors.internalError });
     }
   };
+
+  abstract readOne(
+    req: Request<{ id: string; }>,
+    res: Response<T | ResponseError>,
+  ): Promise<typeof res>;
 }
 
 export default MongoController;
+
+// consulta em Course: https://app.betrybe.com/course/back-end/mongodb-com-nodejs-e-poo/mongodb-e-poo/91006798-2877-4004-9cf5-d2d72a859272/conteudos/36237ca5-7ba2-40e3-9cb7-5af2159d3bef/controllers/50c899c8-2aaa-4c89-85aa-8ae2ba7b25ee?use_case=side_bar

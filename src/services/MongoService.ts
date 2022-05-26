@@ -8,6 +8,9 @@ abstract class MongoService<T> {
 
   public read = async (): Promise<T[]> =>
     this.model.read();
+
+  public readOne = async (id: string): Promise<T | null> =>
+    this.model.readOne(id);
 }
 
 export default MongoService;
