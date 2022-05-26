@@ -91,7 +91,30 @@ describe('1 - Car Controllers Test in route...', () => {
     it('a) should return a Car object and status 200', async () => {
       chaiHttpResponse = await chai
         .request(app)
-        .get('/cars/4edd40c86762e0fb12000003')
+        .get(`/cars/${carResolveMock._id}`)
+        .then(res => {
+          expect(res.body).to.be.an('object');
+          expect(res).to.have.status(200);
+          expect(res.body).to.deep.equal(carResolveMock);
+          return res.body;
+        });
+    });
+  });
+
+  describe('1.4 - method PUT /cars/:id:', () => {
+    before(async () => {
+      sinon.stub(carModel.model, 'findOneAndUpdate').resolves(carResolveMock as any);
+    });
+
+    after(() => {
+      sinon.restore();
+    });
+
+    it('a) should return a Car object and status 200', async () => {
+      chaiHttpResponse = await chai
+        .request(app)
+        .put(`/cars/${carResolveMock._id}`)
+        .send(carCreateMock)
         .then(res => {
           expect(res.body).to.be.an('object');
           expect(res).to.have.status(200);
