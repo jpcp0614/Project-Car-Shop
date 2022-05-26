@@ -3,7 +3,7 @@ import CarModel from '../models/CarModel';
 import MongoService from './MongoService';
 
 class CarService extends MongoService<ICar> {
-  constructor(protected model = new CarModel()) {
+  constructor(public model = new CarModel()) {
     super(model);
   }
 }
