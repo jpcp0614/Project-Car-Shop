@@ -15,20 +15,10 @@ abstract class MongoController<T> {
 
   constructor(protected service: MongoService<T>, public route: string) {}
 
-  public create = async (
+  abstract create(
     req: RequestWithBody<T>,
     res: Response<T | ResponseError>,
-  ): Promise<typeof res> => {
-    try {
-      const { body } = req;
-
-      const carCreated = await this.service.create(body);
-
-      return res.status(201).json(carCreated);
-    } catch (error) {
-      return res.status(500).json({ error: this.errors.internalError });
-    }
-  };
+  ): Promise<typeof res>;
 }
 
 export default MongoController;
