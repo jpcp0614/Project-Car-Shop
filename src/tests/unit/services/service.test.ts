@@ -1,26 +1,25 @@
 import { expect } from 'chai';
-import mongoose from 'mongoose';
-import Sinon from 'sinon';
+import * as sinon from 'sinon';
 import CarService from '../../../services/CarService';
-import { carCreateMock } from '../mocks/carMock';
+import { carResolveMock } from '../mocks/carMock';
 
 describe('1 - Car Services Test', () => {
   let carService = new CarService();
 
   describe('1.1 - "create" method:', () => {
     before(() => {
-      Sinon.stub(carService.model, 'create').resolves(carCreateMock);
+      sinon.stub(carService.model, 'create').resolves(carResolveMock);
     });
 
     after(() => {
-      Sinon.restore();
+      sinon.restore();
     });
 
     it('a) should return a Car object with the "_id" property', async () => {
-      const carCreated = await carService.create(carCreateMock);
+      const carCreated = await carService.create(carResolveMock);
       expect(carCreated).to.be.an('object');
       expect(carCreated).to.have.property('_id');
-      expect(carCreated).to.deep.equal(carCreateMock);
+      expect(carCreated).to.deep.equal(carResolveMock);
     });
   });
 });
